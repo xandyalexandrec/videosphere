@@ -1,6 +1,7 @@
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = ({debug = false} = {}) => {
 	const plugins = [
@@ -9,9 +10,13 @@ module.exports = ({debug = false} = {}) => {
 		}),
 		new HtmlWebpackPlugin({
 			title: 'VideoSphere',
-			filename: 'index.html'
-		})
-	];
+			filename: 'index.html',
+			template: 'src/index.html'
+		}),
+        new CopyWebpackPlugin([
+            { from: 'src/assets', to: 'assets' }
+        ])
+	]
 	if (!debug){
 		plugins.push(
 			new webpack.optimize.UglifyJsPlugin({
@@ -23,7 +28,7 @@ module.exports = ({debug = false} = {}) => {
 					comments: false
 				}
 			})
-		);
+		)
 	}
 
 	return {
@@ -56,5 +61,5 @@ module.exports = ({debug = false} = {}) => {
 		performance: {
 			hints: false
 		}
-	};
-};
+	}
+}
